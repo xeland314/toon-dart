@@ -1,3 +1,4 @@
+import 'package:fixnum/fixnum.dart';
 import '../types.dart';
 import '../utilities/constants.dart';
 import '../utilities/string-utils.dart';
@@ -24,7 +25,9 @@ String encodePrimitive(JsonPrimitive value, [String? delimiter]) {
       if (value == value.truncateToDouble() && value.isFinite) {
         // It's a whole number
         // Check if it fits in int range
-        if (value >= -9223372036854775808 && value <= 9223372036854775807) {
+        final bigValue = BigInt.from(value);
+        if (bigValue >= BigInt.parse('-9223372036854775808') &&
+            bigValue <= BigInt.parse('9223372036854775807')) {
           // Safe to convert to int
           return value.toInt().toString();
         } else {
